@@ -45,15 +45,17 @@ void cg::renderer::rasterization_renderer::render()
 		float4 processed = mul(matrix, vertex);
 		return std::make_pair(processed, vertex_data);
 	};
+	rasterizer->pixel_shader = [](cg::vertex vertex_data, float z) {
+		return cg::color::from_float3(vertex_data.ambient);
+	};
 
 	auto start = std::chrono::high_resolution_clock::now();
 
-	rasterizer->clear_render_target({255, 255, 255});
+	rasterizer->clear_render_target({111, 15, 112});
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float, std::milli> duration = stop - start;
 	std::cout << "Clearing took: " << duration.count() << " ms" << "\n";
-	// TODO Lab: 1.05 Implement `pixel_shader` lambda for the instance of `cg::renderer::rasterizer`
 
 	for (size_t shape_id = 0; shape_id != model->get_index_buffers().size(); ++shape_id)
 	{
