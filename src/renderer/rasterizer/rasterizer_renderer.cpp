@@ -47,13 +47,18 @@ void cg::renderer::rasterization_renderer::render()
 		float4 processed = mul(matrix, vertex);
 		return std::make_pair(processed, vertex_data);
 	};
-	rasterizer->pixel_shader = [](cg::vertex vertex_data, float z) {
-		return cg::color::from_float3(vertex_data.ambient);
+	rasterizer->pixel_shader = [&](cg::vertex vertex_data, float z) {
+		cg::color scene_color = cg::color::from_float3(vertex_data.ambient);
+		// Calculate the inverse of the color
+		scene_color.r = 1.f - scene_color.r;
+		scene_color.g = 1.f - scene_color.g;
+		scene_color.b = 1.f - scene_color.b;
+		return scene_color;
 	};
 
 	auto start = std::chrono::high_resolution_clock::now();
 
-	rasterizer->clear_render_target({111, 15, 112});
+	rasterizer->clear_render_target({175, 225, 175});
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float, std::milli> duration = stop - start;

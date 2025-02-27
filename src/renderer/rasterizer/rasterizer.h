@@ -134,7 +134,7 @@ namespace cg::renderer
 			int2 min_vertex = min(vertex_a, min(vertex_b, vertex_c));
 			int2 max_vertex = max(vertex_a, max(vertex_b, vertex_c));
 			int2 min_viewport = int2{0, 0};
-			int2 max_viewport = int2{static_cast<int>(width - 1), static_cast<int>(height - 1)};
+			int2 max_viewport = int2{static_cast<int>(width) - 1, static_cast<int>(height) - 1};
 
 			int2 begin = clamp(min_vertex, min_viewport, max_viewport);
 			int2 end = clamp(max_vertex, min_viewport, max_viewport);
@@ -160,7 +160,7 @@ namespace cg::renderer
 
 						if (depth_test(depth, x, y))
 						{
-							auto pixel_result = pixel_shader(vertices[0], 0.f);
+							auto pixel_result = pixel_shader(vertices[0], depth);
 							render_target->item(x, y) = RT::from_color(pixel_result);
 							depth_buffer->item(x, y) = depth;
 						}
