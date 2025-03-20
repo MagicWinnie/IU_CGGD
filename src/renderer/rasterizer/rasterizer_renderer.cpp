@@ -50,9 +50,9 @@ void cg::renderer::rasterization_renderer::render()
 	rasterizer->pixel_shader = [&](cg::vertex vertex_data, float z) {
 		cg::color scene_color = cg::color::from_float3(vertex_data.ambient);
 		// Calculate the inverse of the color
-		scene_color.r = 1.f - scene_color.r;
-		scene_color.g = 1.f - scene_color.g;
-		scene_color.b = 1.f - scene_color.b;
+		// scene_color.r = 1.f - scene_color.r;
+		// scene_color.g = 1.f - scene_color.g;
+		// scene_color.b = 1.f - scene_color.b;
 		return scene_color;
 	};
 
